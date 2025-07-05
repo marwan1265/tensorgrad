@@ -1,0 +1,27 @@
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Test cache
+.pytest_cache/
+
+# macOS system files
+.DS_Store
+
+# IDE/editor directories
+.idea/
+.vscode/
+
+build/
+dist/
+*.egg-info/
