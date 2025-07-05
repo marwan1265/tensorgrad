@@ -60,7 +60,7 @@ If CuPy or a CUDA driver is not available the backend quietly falls back to NumP
 
 ---
 
-##tensorGrad training demo
+## tensorGrad training demo
 
 For a step-by-step, runnable walkthrough open [`demo.ipynb`](demo.ipynb).
 The notebook shows how to:
