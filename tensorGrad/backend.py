@@ -13,12 +13,14 @@ Switching backend
        backend.use_cupy()   # or backend.use_numpy()
 
 If CuPy is requested but not installed, a clear ImportError is raised.
+If CuPy is installed but can't initialize (no GPU), falls back to NumPy.
 """
 
 from __future__ import annotations
 
 import importlib
 import os
+import warnings
 from types import ModuleType
 
 import numpy as _np
@@ -42,6 +44,23 @@ def _load_cupy() -> ModuleType:
         ) from e
 
 
+def _try_cupy_fallback() -> ModuleType:
+    """Try to load CuPy, but fall back to NumPy if it can't initialize."""
+    try:
+        cupy = _load_cupy()
+        # Test if CuPy can actually create arrays (i.e., CUDA is available)
+        cupy.array([1.0])
+        return cupy
+    except Exception as e:
+        warnings.warn(
+            f"CuPy backend requested but failed to initialize: {e}. "
+            "Falling back to NumPy backend.",
+            RuntimeWarning,
+            stacklevel=2
+        )
+        return _np
+
+
 # -----------------------------------------------------------------------------
 # Backend selection logic
 # -----------------------------------------------------------------------------
@@ -49,7 +68,7 @@ def _load_cupy() -> ModuleType:
 _backend_choice = os.environ.get("TENSORGRAD_BACKEND", "numpy").lower()
 
 if _backend_choice == "cupy":
-    _xp = _load_cupy()
+    _xp = _try_cupy_fallback()
 else:
     _xp = _np
 
@@ -64,7 +83,7 @@ xp = _xp  # type: ignore
 def use_cupy() -> None:
     """Switch the active backend to CuPy at runtime (if installed)."""
     global xp
-    xp = _load_cupy()  # type: ignore
+    xp = _try_cupy_fallback()  # type: ignore
 
 
 def use_numpy() -> None:

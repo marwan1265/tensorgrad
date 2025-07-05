@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  numpy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,30 +21,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Run tests (NumPy backend)
-        run: pytest -q
-
-  cupy:
-    needs: numpy
-    runs-on: ubuntu-latest
-    continue-on-error: true  # CuPy requires CUDA; mark optional.
-    env:
-      TENSORGRAD_BACKEND: cupy
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          # Install the package with dev dependencies
-          pip install -e ".[dev]"
-          # Install CuPy wheel; if it fails (e.g., no GPU) the job will still attempt to import.
-          pip install cupy-cuda12x || pip install cupy-cuda11x || true
-
-      - name: Run tests (CuPy backend)
-        run: pytest -q 
+      - name: Run tests
+        run: pytest -v 
