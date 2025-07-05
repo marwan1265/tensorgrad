@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy torch pytest
+          pip install -e ".[dev]"
 
       - name: Run tests (NumPy backend)
         run: pytest -q
@@ -41,8 +41,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          # Install the package with dev dependencies
+          pip install -e ".[dev]"
           # Install CuPy wheel; if it fails (e.g., no GPU) the job will still attempt to import.
-          pip install numpy torch pytest
           pip install cupy-cuda12x || pip install cupy-cuda11x || true
 
       - name: Run tests (CuPy backend)

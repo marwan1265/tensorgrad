@@ -1,6 +1,6 @@
 # TensorGrad
 
-A tiny autograd engine for **learning how deep learning works under the hood**. Powered by NumPy (or CuPy for GPU), it delivers a complete training pipeline in **under 600 lines of readable code** — including broadcasting, four optimizers (Adam, AdamW, SGD-momentum & Nesterov), and PyTorch-style APIs.
+A tiny tensor autograd engine for **learning how deep learning works under the hood**. Powered by NumPy (or CuPy for GPU), it delivers a complete training pipeline in **under 600 lines of readable code** — including broadcasting, four optimizers (Adam, AdamW, SGD-momentum & Nesterov), and PyTorch-style APIs.
 
 <div align="center">
   <img src="neural.png" alt="AI generated image of a brain imaging scan" width="550"/>
